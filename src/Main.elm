@@ -1,8 +1,9 @@
 module Main exposing (main)
 
-import Browser exposing (Document)
+import Browser exposing (Document, UrlRequest)
 import Browser.Navigation as Nav
-import Html exposing (p, text)
+import Html exposing (button, p, text)
+import Html.Events exposing (onClick)
 import Url
 
 
@@ -19,14 +20,15 @@ main =
 
 type alias Model =
     { key : Nav.Key
+    , title : String
     , arst : String
     }
 
 
 type Msg
-    = NoOp
-    | LinkClicked Browser.UrlRequest
+    = LinkClicked UrlRequest
     | UrlChanged Url.Url
+    | ArstTitle
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -34,6 +36,7 @@ init _ url key =
     let
         model =
             { key = key
+            , title = "yes"
             , arst = "arst"
             }
     in
@@ -41,17 +44,26 @@ init _ url key =
 
 
 view : Model -> Document Msg
-view { arst } =
-    { title = "yes"
+view { title, arst } =
+    { title = title
     , body =
         [ p [] [ text arst ]
+        , button [ onClick ArstTitle ] [ text "Change title to arst" ]
         ]
     }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    if msg == ArstTitle then
+        let
+            newModel =
+                { model | title = "arst" }
+        in
+        ( newModel, Cmd.none )
+
+    else
+        ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
