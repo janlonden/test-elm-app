@@ -1,14 +1,15 @@
 module Main exposing (main)
 
-import Browser exposing (Document, UrlRequest)
+import Browser exposing (Document, UrlRequest, application)
 import Browser.Navigation as Nav
 import Html exposing (button, p, text)
 import Html.Events exposing (onClick)
+import Menu exposing (menu)
 import Url
 
 
 main =
-    Browser.application
+    application
         { init = init
         , view = view
         , update = update
@@ -49,6 +50,7 @@ view { title, arst } =
     , body =
         [ p [] [ text arst ]
         , button [ onClick ArstTitle ] [ text "Change title to arst" ]
+        , menu
         ]
     }
 
