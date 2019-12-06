@@ -2,8 +2,9 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation as Nav
-import Html exposing (a, button, div, h2, li, p, text, ul)
-import Html.Attributes exposing (href)
+import Menu exposing (menu)
+import Router exposing (createPage, router)
+import Types exposing (..)
 import Url
 
 
@@ -16,18 +17,6 @@ main =
         , onUrlRequest = ClickedLink
         , onUrlChange = UrlChanged
         }
-
-
-type alias Model =
-    { key : Nav.Key
-    , title : String
-    , page : Html.Html Msg
-    }
-
-
-type Msg
-    = ClickedLink Browser.UrlRequest
-    | UrlChanged Url.Url
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -70,58 +59,3 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
-
-
-router : Model -> Url.Url -> ( Model, Cmd msg )
-router model { path } =
-    let
-        title =
-            case path of
-                "/" ->
-                    "Home"
-
-                "/page" ->
-                    "Page"
-
-                "/page-two" ->
-                    "Page two"
-
-                _ ->
-                    "Not found"
-
-        newPage =
-            createPage title
-    in
-    ( { model | page = newPage, title = title }, Cmd.none )
-
-
-createPage : String -> Html.Html msg
-createPage title =
-    div []
-        [ h2 [] [ text title ]
-        , p [] [ text (title ++ " lorem ipsum dolor sit amet") ]
-        ]
-
-
-type alias Link =
-    { url : String
-    , title : String
-    }
-
-
-links : List Link
-links =
-    [ { url = "/", title = "Home" }
-    , { url = "/page", title = "Page" }
-    , { url = "/page-two", title = "Page Two" }
-    ]
-
-
-createListItem : Link -> Html.Html msg
-createListItem { url, title } =
-    li [] [ a [ href url ] [ text title ] ]
-
-
-menu : Html.Html msg
-menu =
-    ul [] (List.map createListItem links)
