@@ -32,5 +32,5 @@ createPage : String -> Html.Html msg
 createPage title =
     div []
         [ h2 [] [ text title ]
-        , p [] [ text (title ++ " lorem ipsum dolor sit amet") ]
+        , p [] [ text (title ++ " lorem ipsum dolor sit amet!") ]
         ]
