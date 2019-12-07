@@ -1,7 +1,8 @@
 module Menu exposing (menu)
 
-import Html exposing (a, li, text, ul)
+import Html exposing (Html, a, li, text, ul)
 import Html.Attributes exposing (href)
+import Types exposing (..)
 
 
 type alias Link =
@@ -14,15 +15,15 @@ links : List Link
 links =
     [ { url = "/", title = "Home" }
     , { url = "/page", title = "Page" }
-    , { url = "/page-two", title = "Page Two" }
+    , { url = "/page-two", title = "Page two" }
     ]
 
 
-createListItem : Link -> Html.Html msg
+createListItem : Link -> Html Msg
 createListItem { url, title } =
     li [] [ a [ href url ] [ text title ] ]
 
 
-menu : Html.Html msg
+menu : Html Msg
 menu =
     ul [] (List.map createListItem links)

@@ -5,7 +5,7 @@ import Types exposing (..)
 import Url
 
 
-router : Model -> Url.Url -> ( Model, Cmd msg )
+router : Model -> Url.Url -> ( Model, Cmd Msg )
 router model { path } =
     let
         title =
@@ -28,7 +28,7 @@ router model { path } =
     ( { model | page = newPage, title = title }, Cmd.none )
 
 
-createPage : String -> Html.Html msg
+createPage : String -> Html.Html Msg
 createPage title =
     div []
         [ h2 [] [ text title ]

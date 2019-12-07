@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser
-import Browser.Navigation as Nav
+import Browser.Navigation exposing (Key, load, pushUrl)
 import Menu exposing (menu)
 import Router exposing (createPage, router)
 import Types exposing (..)
@@ -19,7 +19,7 @@ main =
         }
 
 
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init : () -> Url.Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
     let
         model =
@@ -47,10 +47,10 @@ update msg model =
         ClickedLink urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
+                    ( model, pushUrl model.key (Url.toString url) )
 
                 Browser.External url ->
-                    ( model, Nav.load url )
+                    ( model, load url )
 
         UrlChanged url ->
             router model url

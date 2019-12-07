@@ -1,18 +1,18 @@
 module Types exposing (..)
 
-import Browser
-import Browser.Navigation as Nav
-import Html
+import Browser exposing (UrlRequest)
+import Browser.Navigation exposing (Key)
+import Html exposing (Html)
 import Url
 
 
 type alias Model =
-    { key : Nav.Key
+    { key : Key
     , title : String
-    , page : Html.Html Msg
+    , page : Html Msg
     }
 
 
 type Msg
-    = ClickedLink Browser.UrlRequest
+    = ClickedLink UrlRequest
     | UrlChanged Url.Url
