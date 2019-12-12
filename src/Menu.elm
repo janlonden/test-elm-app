@@ -1,27 +1,22 @@
-module Menu exposing (menu)
+module Menu exposing (links, menu)
 
 import Html exposing (Html, a, li, text, ul)
 import Html.Attributes exposing (href)
 import Types exposing (..)
 
 
-type alias Link =
-    { url : String
-    , title : String
-    }
-
-
 links : List Link
 links =
-    [ { url = "/", title = "Home" }
-    , { url = "/page", title = "Page" }
-    , { url = "/page-two", title = "Page two" }
+    [ { path = "/", title = "Home" }
+    , { path = "/page", title = "Page" }
+    , { path = "/page-two", title = "Page two" }
+    , { path = "/cats", title = "Cats" }
     ]
 
 
 createListItem : Link -> Html Msg
-createListItem { url, title } =
-    li [] [ a [ href url ] [ text title ] ]
+createListItem { path, title } =
+    li [] [ a [ href path ] [ text title ] ]
 
 
 menu : Html Msg

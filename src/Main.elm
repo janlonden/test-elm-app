@@ -2,10 +2,11 @@ module Main exposing (main)
 
 import Browser
 import Browser.Navigation exposing (Key, load, pushUrl)
-import Menu exposing (menu)
+import Cats exposing (getCat)
+import Menu exposing (links, menu)
 import Router exposing (createPage, router)
 import Types exposing (..)
-import Url
+import Url exposing (Url, toString)
 
 
 main =
@@ -19,13 +20,17 @@ main =
         }
 
 
-init : () -> Url.Url -> Key -> ( Model, Cmd Msg )
+init : () -> Url -> Key -> ( Model, Cmd Msg )
 init _ url key =
     let
+        maybeHome =
+            List.head <| List.filter (\link -> link.path == "/") links
+
         model =
             { key = key
             , title = "Home"
-            , page = createPage "Home"
+            , page = createPage maybeHome
+            , loading = []
             }
     in
     ( model, Cmd.none )
@@ -47,13 +52,16 @@ update msg model =
         ClickedLink urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, pushUrl model.key (Url.toString url) )
+                    ( model, pushUrl model.key (toString url) )
 
                 Browser.External url ->
                     ( model, load url )
 
         UrlChanged url ->
             router model url
+
+        GetCat ->
+            getCat
 
 
 subscriptions : Model -> Sub Msg
